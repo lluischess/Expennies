@@ -26,6 +26,11 @@
  5) Bootstrap https://getbootstrap.com/
  6) SASS https://sass-lang.com/
 
+## Other Utilitys
+
+ - https://drawsql.app/ 
+ - 
+
 
  # Estructura
 

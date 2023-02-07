@@ -98,4 +98,10 @@ Es el archivo de variables de entorno, cuando se empiece un nuevo proecto hay qu
 2) Opcional: Usando Docker estaremos usando e instalando node npm para instalar bootstrap
 3) Opcional: Sin Docker hay que instalar node y npm aparte
 4) Rellenar el .env las variables de entorno con tu entorno
-5) Una vez añadidas vamos a ir a la carpeta docker por terminal y usaremos "docker-compose up -d --build"
+5) Opcional: Una vez añadidas vamos a ir a la carpeta docker por terminal y usaremos "docker-compose up -d --build"
+6) Hacer un "Install composer"
+7) Instalar Node.js https://www.cursosgis.com/como-instalar-node-js-y-npm-en-4-pasos/
+8) Conectar BBDD al proyecto PHPStorm o VSC
+9) Hacer "php expennies migrations:migrate"
+10) Hacer "npm install" and "npm run dev"
+11) Usando Laragon con virtual host Habilitado: http://expennies.test/

@@ -17,11 +17,11 @@ services:
     volumes:
       - ../:/var/www
   nginx:
-    image: nginx:1.19-alpine
+    image: nginx:1.22
     container_name: expennies-nginx
     restart: always
     ports:
-      - "8000:80"
+      - "8000:8080"
     volumes:
       - ../:/var/www
       - ./nginx:/etc/nginx/conf.d

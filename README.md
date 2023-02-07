@@ -1,0 +1,101 @@
+# DOCUMENTATION PROJECT LIST
+ THIS REPOSITORY IS A LIST OF BACKEND PHP TOOLS THAT ALL BACKEND DEVELOPER SHOULD HAVE DONE.
+
+ This list of projects will be updated as improvements appear in PHP
+
+# BACKEND uset on this repo:
+ - PHP
+ - SlimPHP
+ - MySQL Doctrine ORM and Migrations
+ - Symfony Components
+ - PHP-DI
+
+# FRONTEND uset on this repo:
+ - Bootstrap
+ - Some HTML-JS webpack
+ - Twig
+
+
+
+# List of Tools:
+
+ 1) Node JS https://nodejs.org/en/
+ 2) NPM https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+ 3) Webpack https://webpack.js.org/
+ 4) Symfony Webpack Encore https://symfony.com/doc/current/frontend.html
+ 5) Bootstrap https://getbootstrap.com/
+ 6) SASS https://sass-lang.com/
+
+
+ # Estructura
+
+ ### Carpeta "public"
+
+ El index.php es el punto de entrada a la Aplicación.
+
+ ### Archivo raiz "bootstrap.php"
+
+ Crea algunas cosas como preparar las variables de entorno .env llama algunas clases del slimphp y carga el autoload y las constantes de las rutas del proyecto.
+ Ademas cargara un contenedor de Dependencias que necesita el proyecto situado en la siguiente ruta: configs\container\container_bindings.php
+ Tambien cargamos un Middleware para integrar a nuestra App Twig y un Logger
+
+### Carpeta "configs"
+
+1 - En ella aparecen 4 archivos importantes app.php(El archivo de configuración donde guardaremos los parametros de configuración de la app)
+                                        middleware.php(Para unificar algunas herramientas como twig y el logger de slimphp con nuestra app)
+                                        migrations.php(Contiene el array con los valores configurados para crear migraciones)
+                                        path_constants.php(Guardamos las rutas mas usadas de la app en constantes)
+
+2 - Carpeta "configs" ===> "commands":
+    Contiene los commandos de Doctrine Basicos
+
+3 - Carpeta "configs" ===> "container":
+    Contiene un DI Dependency injection container de un conjunto de dependencias Importante(DoctrineORM, SlimPHP, SymfonyComponent y Twig)
+
+    Cuando el container.php es llamado este llamara al container_bindings.php el cual crea una entrada de la class config y requeriendo la aplicación php config en el constructor.
+
+    Despues comprobamos que para la entrada del Twig este la app en modo desarrollo o no y tambien añade algunas extensiones.
+
+    Luego se añaden 2 webpacks para twig.
+
+4 - Carpeta "configs" ===> "routes":
+    Contiene el archivo web de las routes como un laravel o symfony etc
+
+### Archivo "package.json"
+
+Contiene todas las dependencias usadas en Frontend.
+
+### Archivo "webpack.config.js"
+
+Contiene la configuración establecida del Webpack de symfony componenet para trabajar con frontend
+
+### Carpeta "resources"
+
+1- Carpeta "css" contiene todo el diseño de la app. Usando scss
+
+2- Carpeta "images" contiene todas las imagenes y videos del proyecto
+
+3- Carpeta "js" contiene la funcionalidad del front
+
+4- Carpeta "views" contiene las Plantillas de la app del front usando Twig
+
+### Archivo "composer.json"
+
+COntiene todas las herramientas que usaremos y necesita el proyecto para funcionar
+
+### Archivo "composer.lock"
+
+Contiene toda la estructura de herramientas que necesitamos y las versiónes requeridas
+
+### Archivo ".env.example"
+
+Es el archivo de variables de entorno, cuando se empiece un nuevo proecto hay que copiarlo y dejar las variables de tu entorno añadidas dejando como archivo final un .env
+
+
+# Install Project:
+
+1) Clone Repo
+2) Opcional: Usando Docker estaremos usando e instalando node npm para instalar bootstrap
+3) Opcional: Sin Docker hay que instalar node y npm aparte
+4) Rellenar el .env las variables de entorno con tu entorno
+5) Una vez añadidas vamos a ir a la carpeta docker por terminal y usaremos "docker-compose up -d --build"

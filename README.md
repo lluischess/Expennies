@@ -110,3 +110,6 @@ Es el archivo de variables de entorno, cuando se empiece un nuevo proecto hay qu
 9) Hacer "php expennies migrations:migrate"
 10) Hacer "npm install" and "npm run dev"
 11) Usando Laragon con virtual host Habilitado: http://expennies.test/
+12) Creamos las app/Entitys los modelos con las clases etc
+13) Una vez creadas hacemos la migración a la BBDD "php expennies diff"
+14) Luego migramos la migración "php expennies migrations:migrate"

@@ -28,8 +28,8 @@
 
 ## Other Utilitys
 
- - https://drawsql.app/ 
- - 
+ - https://drawsql.app/ (Mapas de Bases de datos)
+ - https://crackstation.net/ (Revisar vulnerabilidades del hasing)
 
 
  # Estructura

@@ -6,15 +6,20 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
 
 # Creación de Entity y tabla mediante atributos y anotaciones ORM
 #[Entity, Table('users')]
+#[HasLifecycleCallbacks]
 class User
 {
     # We map de propertis to de table
@@ -55,6 +60,16 @@ class User
     public function getId(): int
     {
         return $this->id;
+    }
+
+    # Cada vez que se haga una transicion de la entity actualizara las fechas
+    #[PrePersist, PreUpdate]
+    public function updateTimestamps(LifecycleEventArgs $args): void
+    {
+        if(!isset($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+        $this->updatedAt = new \DateTime();
     }
 
     /**

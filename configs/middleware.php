@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 use App\Config;
 use App\Middleware\ValidationExceptionMiddleware;
+use App\Middleware\StartSessionsMiddleware;
 use Slim\App;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
@@ -15,7 +16,11 @@ return function (App $app) {
     // Twig
     $app->add(TwigMiddleware::create($app, $container->get(Twig::class)));
 
+    // Validacion de campos formularios
     $app->add(\App\Middleware\ValidationExceptionMiddleware::class);
+
+    // Inicio de Session
+    $app->add(\App\Middleware\StartSessionsMiddleware::class);
 
     // Logger
     $app->addErrorMiddleware(

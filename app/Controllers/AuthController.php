@@ -25,6 +25,7 @@ public function loginView(Request $request, Response $response): Response
 
 public function registerView(Request $request, Response $response): Response
 {
+    var_dump($_SESSION);
     return $this->twig->render($response, 'auth/register.twig');
 }
 

@@ -30,7 +30,7 @@
 
  - https://drawsql.app/ (Mapas de Bases de datos)
  - https://crackstation.net/ (Revisar vulnerabilidades del hasing)
-
+ - Herramienta de validación: https://github.com/vlucas/valitron
 
  # Estructura
 

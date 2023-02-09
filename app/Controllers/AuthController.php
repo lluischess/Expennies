@@ -31,7 +31,7 @@ public function registerView(Request $request, Response $response): Response
 public function register(Request $request, Response $response): Response
 {
     // TODO: Implement User Registration
-    $data = $request->getParsedBody($this);
+    $data = $request->getParsedBody();
 
     $v = new Validator($data);
 
@@ -49,8 +49,6 @@ public function register(Request $request, Response $response): Response
         echo "Yay! We're all good!";
     } else {
         throw new ValidationException($v->errors());
-        // Errors
-        //var_dump($v->errors());
     }
 
     exit();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
-use Dotenv\Exception\ValidationException;
+use App\Exception\ValidationException;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,6 +22,7 @@ class ValidationExceptionMiddleware implements MiddlewareInterface
     {
         try {
             return $handler->handle($request);
+
         } catch(ValidationException $e) {
             $response = $this->responseFactory->createResponse();
             $referer  = $request->getServerParams()['HTTP_REFERER'];

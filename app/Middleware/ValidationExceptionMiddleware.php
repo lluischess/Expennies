@@ -27,7 +27,15 @@ class ValidationExceptionMiddleware implements MiddlewareInterface
             $response = $this->responseFactory->createResponse();
             $referer  = $request->getServerParams()['HTTP_REFERER'];
 
+            // Guardamos los datos antiguos
+            $oldData = $request->getParsedBody();
+            // Creamos array con Datos sensibles
+            $credentialFiles = ['password', 'confirmPassword'];
+
             $_SESSION['errors'] = $e->errors;
+
+            // Quitamos de los datos antiguos los datos sensibles
+            $_SESSION['old'] = array_diff_key($oldData, array_flip($credentialFiles));
 
             return $response->withHeader('Location', $referer)->withStatus(302);
         }

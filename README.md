@@ -113,3 +113,11 @@ Es el archivo de variables de entorno, cuando se empiece un nuevo proecto hay qu
 12) Creamos las app/Entitys los modelos con las clases etc
 13) Una vez creadas hacemos la migración a la BBDD "php expennies diff"
 14) Luego migramos la migración "php expennies migrations:migrate"
+
+
+## Cosas a corregir y mejorar:
+
+1) Añadir un poco de seguridad a las cookies de session // Pero antes añadimos algunos parametros de seguridad a la sessión:
+   //session_set_cookie_params(['secure' => true, 'httponly' => true, 'samesite' => 'lax']);
+   https://stackoverflow.com/questions/53172484/session-regenerate-id-and-security-attributes
+2) 

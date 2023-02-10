@@ -4,14 +4,18 @@ declare(strict_types = 1);
 
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
+use App\Middleware\GuestMiddleware;
+// Revisar si existe el usuario
+use App\Middleware\AuthMiddleware;
 use Slim\App;
 
 return function (App $app) {
-    $app->get('/', [HomeController::class, 'index']);
+    $app->get('/', [HomeController::class, 'index'])->add(AuthMiddleware::class);
 
     // Autentication
-    $app->get('/login', [AuthController::class, 'loginView']);
-    $app->get('/register', [AuthController::class, 'registerView']);
-    $app->post('/login', [AuthController::class, 'logIn']);
-    $app->post('/register', [AuthController::class, 'register']);
+    $app->get('/login', [AuthController::class, 'loginView'])->add(GuestMiddleware::class);
+    $app->get('/register', [AuthController::class, 'registerView'])->add(GuestMiddleware::class);
+    $app->post('/login', [AuthController::class, 'logIn'])->add(GuestMiddleware::class);
+    $app->post('/register', [AuthController::class, 'register'])->add(GuestMiddleware::class);
+    $app->post('/logout',[AuthController::class, 'logOut'])->add(AuthMiddleware::class);
 };

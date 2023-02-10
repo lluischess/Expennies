@@ -25,6 +25,9 @@ class StartSessionsMiddleware implements MiddlewareInterface
         }
 
         // Iniciamos la session, para poder usarlas.
+        // Pero antes añadimos algunos parametros de seguridad a la sessión:
+        //session_set_cookie_params(['domain' => 'expennies.test', 'path' => '/','secure' => true, 'httponly' => true, 'samesite' => 'lax']);
+        //var_dump(session_get_cookie_params());
         session_start();
 
         // Devolvemos la respuesta con la session iniciada

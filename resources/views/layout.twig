@@ -1,36 +1,60 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-gray-100">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Expennies{% endblock %}</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Expennies{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+          rel="stylesheet">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        <div class="container">
-            <header class="d-flex flex-wrap justify-content-center py-3 mb-4">
-                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                    <img src="{{ asset('build/images/logo.png') }}" width="64" height="64" alt="Expennies Logo" />
-                    <span class="fs-1 fw-bold">Ex<span class="text-primary">pennies</span></span>
-                </a>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center align-items-center py-3 mb-4">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <img src="{{ asset('build/images/logo.png') }}" width="64" height="64" alt="Expennies Logo" />
+            <span class="fs-1 fw-bold">Ex<span class="text-primary">pennies</span></span>
+        </a>
 
-                <ul class="nav nav-pills align-items-center">
-                    <li class="nav-item"><a href="#" class="nav-link fw-bold fs-5 active" aria-current="page">Overview</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link fw-bold fs-5" aria-current="page">Transactions</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link fw-bold fs-5" aria-current="page">Categories</a></li>
-                </ul>
-            </header>
+        <ul class="nav nav-pills align-items-center">
+            <li class="nav-item">
+                <a href="#" class="nav-link fw-bold fs-5 active" aria-current="page">Overview</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link fw-bold fs-5" aria-current="page">Transactions</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link fw-bold fs-5" aria-current="page">Categories</a>
+            </li>
+        </ul>
+
+        <div class="dropdown user-dropdown-menu">
+            <a href="#" class="h5 text-decoration-none" id="userDropDownMenu" data-bs-toggle="dropdown"
+               aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                </svg>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="userDropDownMenu">
+                <li>
+                    <form action="/logout" method="post">
+                        <button class="dropdown-item" href="#">Log Out</button>
+                    </form>
+                </li>
+            </ul>
         </div>
-        <div class="container">
-            {% block content %}{% endblock %}
-        </div>
-    </body>
+    </header>
+</div>
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+</body>
 </html>

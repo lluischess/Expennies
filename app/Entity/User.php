@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Entity;
 
+use App\Contracts\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -20,7 +21,7 @@ use Doctrine\ORM\Mapping\Table;
 # Creación de Entity y tabla mediante atributos y anotaciones ORM
 #[Entity, Table('users')]
 #[HasLifecycleCallbacks]
-class User
+class User implements UserInterface
 {
     # We map de propertis to de table
     # Es un Id con la columna unigned integer y con un autogenerador de values

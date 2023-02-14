@@ -16,8 +16,8 @@ class HomeController
 
     public function index(Request $request, Response $response): Response
     {
-        $user = $request->getAttribute('user');
-        var_dump($user?->getName());
+//        $user = $request->getAttribute('user');
+//        var_dump($user?->getName());
         return $this->twig->render($response, 'dashboard.twig');
     }
 }

@@ -16,8 +16,8 @@ class AuthenticateMiddleware implements MiddlewareInterface
     {
     }
 
-public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-{
-    return $handler->handle($request->withAttribute('user', $this->auth->user()));
-}
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        return $handler->handle($request->withAttribute('user', $this->auth->user()));
+    }
 }

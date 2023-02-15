@@ -16,8 +16,6 @@ return function (App $app) {
     $container = $app->getContainer();
     $config    = $container->get(Config::class);
     // NOTA IMPORTANTE: Los middleware se ejecutan siempre de arriba a bajo por orden
-    // Atentifica al usurio
-    $app->add(\App\Middleware\AuthenticateMiddleware::class);
     // Twig
     $app->add(TwigMiddleware::create($app, $container->get(Twig::class)));
 

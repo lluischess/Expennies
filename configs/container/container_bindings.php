@@ -4,9 +4,11 @@ declare(strict_types = 1);
 
 use App\Config;
 use App\Auth;
+use App\Session;
 use App\Enum\AppEnvironment;
 use App\Contracts\AuthInterface;
 use App\Contracts\UserProviderServiceInterface;
+use App\Contracts\SessionInterface;
 use App\Services\UserProviderService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
@@ -75,4 +77,5 @@ return [
     UserProviderServiceInterface::class => fn(ContainerInterface $container) => $container->get(
         UserProviderService::class
     ),
+    SessionInterface::class => fn() => new Session(),
 ];

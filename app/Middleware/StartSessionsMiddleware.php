@@ -25,6 +25,9 @@ class StartSessionsMiddleware implements MiddlewareInterface
         // Devolvemos la respuesta con la session iniciada
         $response = $handler->handle($request);
 
+        if ($request->getMethod() === 'GET'){
+            $this->session->put('previousURL', (string) $request->getUri());
+        }
         // con esto lo que hacemos es guardar los datos de la session y luego eliminar la session, asi podemos evitar algunos bloqueos de algunos scripts
         // esto cierra la session
         $this->session->save();

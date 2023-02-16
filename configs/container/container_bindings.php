@@ -9,7 +9,9 @@ use App\Enum\AppEnvironment;
 use App\Contracts\AuthInterface;
 use App\Contracts\UserProviderServiceInterface;
 use App\Contracts\SessionInterface;
+use App\Contracts\RequestValidatorFactoryInterface;
 use App\Services\UserProviderService;
+use App\RequestValidators\RequestValidatorFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Psr\Container\ContainerInterface;
@@ -78,4 +80,5 @@ return [
         UserProviderService::class
     ),
     SessionInterface::class => fn() => new Session(),
+    RequestValidatorFactoryInterface::class => fn(ContainerInterface $container) => $container->get(RequestValidatorFactory::class),
 ];

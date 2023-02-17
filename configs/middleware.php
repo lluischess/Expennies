@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use App\Config;
+use App\Middleware\CsrfFieldsMiddleware;
 use App\Middleware\ValidationExceptionMiddleware;
 use App\Middleware\StartSessionsMiddleware;
 use App\Middleware\ValidationErrorsMiddleware;
@@ -16,6 +17,12 @@ return function (App $app) {
     $container = $app->getContainer();
     $config    = $container->get(Config::class);
     // NOTA IMPORTANTE: Los middleware se ejecutan siempre de arriba a bajo por orden
+
+
+    // Seguridad de token csrf y el middleware que pasa a los campos del twig lo necesario
+    $app->add(CsrfFieldsMiddleware::class);
+    $app->add('csrf');
+
     // Twig
     $app->add(TwigMiddleware::create($app, $container->get(Twig::class)));
 

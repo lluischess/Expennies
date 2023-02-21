@@ -16,8 +16,10 @@ class HomeController
 
     public function index(Request $request, Response $response): Response
     {
-//        $user = $request->getAttribute('user');
-//        var_dump($user?->getName());
+        $username = $request->getAttribute('user')->getName();
+
+        include VIEW_PATH . '/xss.php';
+
         return $this->twig->render($response, 'dashboard.twig');
     }
 }

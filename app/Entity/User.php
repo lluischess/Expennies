@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Entity;
 
 use App\Contracts\UserInterface;
+use App\Entity\Traits\HasTimestamps;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -23,6 +24,7 @@ use Doctrine\ORM\Mapping\Table;
 #[HasLifecycleCallbacks]
 class User implements UserInterface
 {
+    use HasTimestamps;
     # We map de propertis to de table
     # Es un Id con la columna unigned integer y con un autogenerador de values
     #[Id, Column(options: ['unsigned' => true]), GeneratedValue]
@@ -36,12 +38,6 @@ class User implements UserInterface
 
     #[Column]
     private string $password;
-
-    #[Column(name: 'created_at')]
-    private \DateTime $createdAt;
-
-    #[Column(name: 'updated_at')]
-    private \DateTime $updatedAt;
 
     #[OneToMany(mappedBy: 'user',targetEntity: Category::class)]
     private Collection $categories;
@@ -61,16 +57,6 @@ class User implements UserInterface
     public function getId(): int
     {
         return $this->id;
-    }
-
-    # Cada vez que se haga una transicion de la entity actualizara las fechas
-    #[PrePersist, PreUpdate]
-    public function updateTimestamps(LifecycleEventArgs $args): void
-    {
-        if(!isset($this->createdAt)) {
-            $this->createdAt = new \DateTime();
-        }
-        $this->updatedAt = new \DateTime();
     }
 
     /**

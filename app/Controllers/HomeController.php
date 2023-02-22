@@ -18,7 +18,7 @@ class HomeController
     {
         $username = $request->getAttribute('user')->getName();
 
-        include VIEW_PATH . '/xss.php';
+        //include VIEW_PATH . '/xss.php';
 
         return $this->twig->render($response, 'dashboard.twig');
     }

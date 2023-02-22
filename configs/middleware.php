@@ -10,6 +10,7 @@ use App\Middleware\ValidationErrorsMiddleware;
 use App\Middleware\OldFormDataMiddleware;
 use App\Middleware\AuthenticateMiddleware;
 use Slim\App;
+use Slim\Middleware\MethodOverrideMiddleware;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 
@@ -18,6 +19,8 @@ return function (App $app) {
     $config    = $container->get(Config::class);
     // NOTA IMPORTANTE: Los middleware se ejecutan siempre de arriba a bajo por orden
 
+    // Este Middleware hace que en las rutas accepte algo mas que no sea ni post ni get
+    $app->add(MethodOverrideMiddleware::class);
 
     // Seguridad de token csrf y el middleware que pasa a los campos del twig lo necesario
     $app->add(CsrfFieldsMiddleware::class);

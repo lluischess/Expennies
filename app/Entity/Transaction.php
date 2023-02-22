@@ -14,10 +14,13 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use App\Entity\Traits\HasTimestamps;
 
 #[Entity, Table('transactions')]
 class Transaction
 {
+    use HasTimestamps;
+
     #[Id, Column(options: ['unsigned' => true]), GeneratedValue]
     private int $id;
 
@@ -29,12 +32,6 @@ class Transaction
 
     #[Column]
     private \DateTime $date;
-
-    #[Column(name: 'created_at')]
-    private \DateTime $createdAt;
-
-    #[Column(name: 'updated_at')]
-    private \DateTime $updatedAt;
 
     #[ManyToOne(inversedBy: 'transactions')]
     private Category $category;

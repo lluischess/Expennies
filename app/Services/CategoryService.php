@@ -39,4 +39,10 @@ class CategoryService
         $this->entityManager->remove($category);
         $this->entityManager->flush();
     }
+
+    // El ? en el return significa que puede ser null o el objeto
+    public function getById(int $id) : ?Category
+    {
+        return $this->entityManager->find(Category::class, $id);
+    }
 }

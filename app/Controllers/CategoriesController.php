@@ -10,6 +10,7 @@ use App\RequestValidators\CreateCategoryRequestValidator;
 use App\Services\CategoryService;
 use App\Contracts\RequestValidatorFactoryInterface;
 use App\Contracts\AuthInterface;
+use App\ResponseFormatter;
 use Slim\Views\Twig;
 
 class CategoriesController
@@ -18,7 +19,8 @@ class CategoriesController
     public function __construct( private Twig $twig,
                                  private AuthInterface $auth,
                                  private CategoryService $categoryService,
-                                 private RequestValidatorFactoryInterface $requestValidatorFactory)
+                                 private RequestValidatorFactoryInterface $requestValidatorFactory,
+                                 private ResponseFormatter $responseFormatter)
     {
     }
 
@@ -51,5 +53,18 @@ class CategoriesController
         $this->categoryService->delete((int) $args['id']);
 
         return $response->withHeader('Location', '/categories')->withStatus(302);
+    }
+
+    public function get(Request $request, Response $response, array $args ) : Response
+    {
+        $category = $this->categoryService->getById((int) $args['id']);
+
+        if (!$category){
+            return $response->withStatus(404);
+        }
+
+        $data = ['id' => $category->getId(), 'name' => $category->getName()];
+
+        return $this->responseFormatter->asJson($response, $data);
     }
 }

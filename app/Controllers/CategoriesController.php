@@ -7,6 +7,7 @@ namespace App\Controllers;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use App\RequestValidators\CreateCategoryRequestValidator;
+use App\RequestValidators\UpdateCategoryRequestValidator;
 use App\Services\CategoryService;
 use App\Contracts\RequestValidatorFactoryInterface;
 use App\Contracts\AuthInterface;
@@ -52,7 +53,8 @@ class CategoriesController
     {
         $this->categoryService->delete((int) $args['id']);
 
-        return $response->withHeader('Location', '/categories')->withStatus(302);
+        //return $response->withHeader('Location', '/categories')->withStatus(302);
+        return $response;
     }
 
     public function get(Request $request, Response $response, array $args ) : Response
@@ -66,5 +68,23 @@ class CategoriesController
         $data = ['id' => $category->getId(), 'name' => $category->getName()];
 
         return $this->responseFormatter->asJson($response, $data);
+    }
+
+    public function update(Request $request, Response $response, array $args ) : Response
+    {
+        // Validacion de los datos de la request
+        $data = $this->requestValidatorFactory->make(UpdateCategoryRequestValidator::class)->validate(
+            $args + $request->getParsedBody()
+        );
+
+        $category = $this->categoryService->getById((int) $data['id']);
+
+        if (!$category){
+            return $response->withStatus(404);
+        }
+
+        $this->categoryService->update($category,$data['name']);
+
+        return $response;
     }
 }

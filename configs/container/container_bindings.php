@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 use App\Config;
 use App\Auth;
+use App\Csrf;
 use App\Session;
 use App\Enum\AppEnvironment;
 use App\Contracts\AuthInterface;
@@ -82,5 +83,5 @@ return [
     ),
     SessionInterface::class => fn() => new Session(),
     RequestValidatorFactoryInterface::class => fn(ContainerInterface $container) => $container->get(RequestValidatorFactory::class),
-    'csrf' => fn(ResponseFactoryInterface $responseFactory) => new Guard($responseFactory, persistentTokenMode: true ),
+    'csrf' => fn(ResponseFactoryInterface $responseFactory, Csrf $csrf) => new Guard($responseFactory, persistentTokenMode: true, failureHandler: $csrf->failureHandler() ),
 ];

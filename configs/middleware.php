@@ -41,6 +41,9 @@ return function (App $app) {
     // Inicio de Session
     $app->add(\App\Middleware\StartSessionsMiddleware::class);
 
+    // Middleware para parsear archivos json y xml
+    $app->addBodyParsingMiddleware();
+
     // Logger
     $app->addErrorMiddleware(
         (bool) $config->get('display_error_details'),

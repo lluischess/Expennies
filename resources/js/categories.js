@@ -1,4 +1,5 @@
-import { Modal } from "bootstrap"
+import { Modal }     from "bootstrap"
+import { get, post, del } from "./ajax"
 
 window.addEventListener('DOMContentLoaded', function () {
     const editCategoryModal = new Modal(document.getElementById('editCategoryModal'))
@@ -7,9 +8,8 @@ window.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function (event) {
             const categoryId = event.currentTarget.getAttribute('data-id')
 
-            // Obtener los datos del Backend y pasarlos al front
-            fetch(`/categories/${categoryId}`)
-                .then(response => response.json())// Pasamos el response a objeto js
+            get(`/categories/${ categoryId }`)
+                .then(response => response.json())
                 .then(response => openEditCategoryModal(editCategoryModal, response))
         })
     })
@@ -17,8 +17,21 @@ window.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.save-category-btn').addEventListener('click', function (event) {
         const categoryId = event.currentTarget.getAttribute('data-id')
 
-        // TODO: Post update to the category
-        console.log(categoryId)
+        post(`/categories/${ categoryId }`, {
+            name: editCategoryModal._element.querySelector('input[name="name"]').value
+        }, editCategoryModal._element).then(response => {
+            if (response.ok) {
+                editCategoryModal.hide()
+            }
+        })
+    })
+
+    document.querySelector('.delete-category-btn').addEventListener('click', function (event) {
+        const categoryId = event.currentTarget.getAttribute('data-id')
+
+        if (confirm('Are you sure you want to delete this category?')) {
+            del(`/categories/${ categoryId }`)
+        }
     })
 })
 

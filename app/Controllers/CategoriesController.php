@@ -13,6 +13,7 @@ use App\Contracts\RequestValidatorFactoryInterface;
 use App\Contracts\AuthInterface;
 use App\ResponseFormatter;
 use Slim\Views\Twig;
+use App\Entity\Category;
 
 class CategoriesController
 {
@@ -27,13 +28,7 @@ class CategoriesController
 
     public function index(Request $request, Response $response): Response
     {
-        return $this->twig->render(
-            $response,
-            'categories/index.twig',
-            [
-                'categories' => $this->categoryService->getAll(),
-            ]
-        );
+        return $this->twig->render($response, 'categories/index.twig');
     }
 
     public function store(Request $request, Response $response) : Response
@@ -86,5 +81,29 @@ class CategoriesController
         $this->categoryService->update($category,$data['name']);
 
         return $response;
+    }
+
+    public function load(Request $request, Response $response): Response
+    {
+        $params = $request->getQueryParams();
+
+        $categories = array_map(function (Category $category) {
+            return [
+                'id'        => $category->getId(),
+                'name'      => $category->getName(),
+                'createdAt' => $category->getCreatedAt()->format('m/d/Y g:i A'),
+                'updatedAt' => $category->getCreatedAt()->format('m/d/Y g:i A'),
+            ];
+        }, $this->categoryService->getAll());
+
+        return $this->responseFormatter->asJson(
+            $response,
+            [
+                'data'            => $categories,
+                'draw'            => (int) $params['draw'],
+                'recordsTotal'    => count($categories),
+                'recordsFiltered' => count($categories),
+            ]
+        );
     }
 }

@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use App\RequestValidators\CreateCategoryRequestValidator;
 use App\RequestValidators\UpdateCategoryRequestValidator;
 use App\Services\CategoryService;
+use App\Services\RequestService;
 use App\Contracts\RequestValidatorFactoryInterface;
 use App\Contracts\AuthInterface;
 use App\ResponseFormatter;
@@ -22,7 +23,8 @@ class CategoriesController
                                  private AuthInterface $auth,
                                  private CategoryService $categoryService,
                                  private RequestValidatorFactoryInterface $requestValidatorFactory,
-                                 private ResponseFormatter $responseFormatter)
+                                 private ResponseFormatter $responseFormatter,
+                                 private RequestService $requestService)
     {
     }
 
@@ -85,9 +87,10 @@ class CategoriesController
 
     public function load(Request $request, Response $response): Response
     {
-        $params = $request->getQueryParams();
 
-        $categories = $this->categoryService->getPaginatedCategories((int) $params['start'], (int) $params['length']);
+        $params = $this->requestService->getDataTableQueryParameters($request);
+
+        $categories = $this->categoryService->getPaginatedCategories($params);
 
         $transformer = function (Category $category) {
             return [
@@ -102,7 +105,7 @@ class CategoriesController
             $response,
             [
                 'data'            => array_map($transformer, (array) $categories->getIterator()),
-                'draw'            => (int) $params['draw'],
+                'draw'            => $params->draw,
                 'recordsTotal'    => count($categories),
                 'recordsFiltered' => count($categories),
             ]

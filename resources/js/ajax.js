@@ -12,13 +12,25 @@ const ajax = (url, method = 'get', data = {}, domElement = null) => {
     const csrfMethods = new Set(['post', 'put', 'delete', 'patch'])
 
     if (csrfMethods.has(method)) {
+        let additionalFields = {...getCsrfFields()}
+
         if (method !== 'post') {
             options.method = 'post'
 
-            data = {...data, _METHOD: method.toUpperCase()}
+            additionalFields._METHOD = method.toUpperCase()
         }
 
-        options.body = JSON.stringify({...data, ...getCsrfFields()})
+        if (data instanceof FormData) {
+            for (const additionalField in additionalFields) {
+                data.append(additionalField, additionalFields[additionalField])
+            }
+
+            delete options.headers['Content-Type'];
+
+            options.body = data
+        } else {
+            options.body = JSON.stringify({...data, ...additionalFields})
+        }
     } else if (method === 'get') {
         url += '?' + (new URLSearchParams(data)).toString();
     }
@@ -46,18 +58,16 @@ const del = (url, data) => ajax(url, 'delete', data)
 
 function handleValidationErrors(errors, domElement) {
     for (const name in errors) {
-        const element = domElement.querySelector(`input[name="${ name }"]`)
+        const element = domElement.querySelector(`[name="${ name }"]`)
 
         element.classList.add('is-invalid')
 
-        for (const error of errors[name]) {
-            const errorDiv = document.createElement('div')
+        const errorDiv = document.createElement('div')
 
-            errorDiv.classList.add('invalid-feedback')
-            errorDiv.textContent = error
+        errorDiv.classList.add('invalid-feedback')
+        errorDiv.textContent = errors[name][0]
 
-            element.parentNode.append(errorDiv)
-        }
+        element.parentNode.append(errorDiv)
     }
 }
 

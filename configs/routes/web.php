@@ -5,6 +5,8 @@ declare(strict_types = 1);
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\CategoriesController;
+use App\Controllers\TransactionController;
+use App\Controllers\ReceiptController;
 use App\Middleware\GuestMiddleware;
 // Revisar si existe el usuario
 use App\Middleware\AuthMiddleware;
@@ -31,5 +33,15 @@ return function (App $app) {
         $categories->delete('/{id:[0-9]+}', [CategoriesController::class, 'delete']);
         $categories->get('/{id:[0-9]+}', [CategoriesController::class, 'get']);
         $categories->post('/{id:[0-9]+}', [CategoriesController::class, 'update']);
+    })->add(AuthMiddleware::class);
+
+    $app->group('/transactions', function (RouteCollectorProxy $transactions) {
+        $transactions->get('', [TransactionController::class, 'index']);
+        $transactions->get('/load', [TransactionController::class, 'load']);
+        $transactions->post('', [TransactionController::class, 'store']);
+        $transactions->delete('/{id:[0-9]+}', [TransactionController::class, 'delete']);
+        $transactions->get('/{id:[0-9]+}', [TransactionController::class, 'get']);
+        $transactions->post('/{id:[0-9]+}', [TransactionController::class, 'update']);
+        $transactions->post('/{id:[0-9]+}/receipts', [ReceiptController::class, 'store']);
     })->add(AuthMiddleware::class);
 };

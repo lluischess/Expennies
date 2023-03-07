@@ -66,42 +66,6 @@ class Category
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     * @return Category
-     */
-    public function setCreatedAt(\DateTime $createdAt): Category
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt(): \DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     * @return Category
-     */
-    public function setUpdatedAt(\DateTime $updatedAt): Category
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
-    /**
      * @return User
      */
     public function getUser(): User

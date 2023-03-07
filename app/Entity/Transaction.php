@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -17,6 +18,7 @@ use Doctrine\ORM\Mapping\Table;
 use App\Entity\Traits\HasTimestamps;
 
 #[Entity, Table('transactions')]
+#[HasLifecycleCallbacks]
 class Transaction
 {
     use HasTimestamps;
@@ -114,42 +116,6 @@ class Transaction
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     * @return Transaction
-     */
-    public function setCreatedAt(\DateTime $createdAt): Transaction
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt(): \DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     * @return Transaction
-     */
-    public function setUpdatedAt(\DateTime $updatedAt): Transaction
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
-    /**
      * @return Category
      */
     public function getCategory(): Category
@@ -163,7 +129,7 @@ class Transaction
      */
     public function setCategory(Category $category): Transaction
     {
-        $category->addTransaction($this);
+        $category->addTransactions($this);
         $this->category = $category;
         return $this;
     }
@@ -182,7 +148,7 @@ class Transaction
      */
     public function setUser(User $user): Transaction
     {
-        $user->addTransaction($this);
+        $user->addTransactions($this);
         $this->user = $user;
         return $this;
     }

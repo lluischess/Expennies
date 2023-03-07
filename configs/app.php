@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use App\Enum\AppEnvironment;
+use App\Enum\StorageDriver;
 
 $appEnv = $_ENV['APP_ENV'] ?? AppEnvironment::Production->value;
 
@@ -26,4 +27,7 @@ return [
             'password' => $_ENV['DB_PASS'],
         ],
     ],
+    'storage' => [
+        'driver' => StorageDriver::Local,
+    ]
 ];

@@ -7,6 +7,7 @@ use App\Auth;
 use App\Csrf;
 use App\Session;
 use App\Enum\AppEnvironment;
+use App\Enum\StorageDriver;
 use App\Contracts\AuthInterface;
 use App\Contracts\UserProviderServiceInterface;
 use App\Contracts\SessionInterface;
@@ -14,6 +15,7 @@ use App\Contracts\RequestValidatorFactoryInterface;
 use App\Services\UserProviderService;
 use App\RequestValidators\RequestValidatorFactory;
 use Doctrine\ORM\EntityManager;
+use League\Flysystem\Filesystem;
 use Doctrine\ORM\ORMSetup;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -84,4 +86,11 @@ return [
     SessionInterface::class => fn() => new Session(),
     RequestValidatorFactoryInterface::class => fn(ContainerInterface $container) => $container->get(RequestValidatorFactory::class),
     'csrf' => fn(ResponseFactoryInterface $responseFactory, Csrf $csrf) => new Guard($responseFactory, persistentTokenMode: true, failureHandler: $csrf->failureHandler() ),
+    Filesystem::class => function(Config $config) {
+        $adapter = match($config->get('storage.driver')){
+            StorageDriver::Local => new \League\Flysystem\Local\LocalFilesystemAdapter(STORAGE_PATH),
+        };
+
+        return new \League\Flysystem\Filesystem($adapter);
+    }
 ];

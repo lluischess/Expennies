@@ -114,42 +114,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     * @return User
-     */
-    public function setCreatedAt(\DateTime $createdAt): User
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt(): \DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     * @return User
-     */
-    public function setUpdatedAt(\DateTime $updatedAt): User
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
-    /**
      * @return ArrayCollection|Collection
      */
     public function getCategories(): ArrayCollection|Collection

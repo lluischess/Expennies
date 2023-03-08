@@ -36,7 +36,7 @@ class Transaction
     private \DateTime $date;
 
     #[ManyToOne(inversedBy: 'transactions')]
-    private Category $category;
+    private ?Category $category;
 
     #[ManyToOne(inversedBy: 'transactions')]
     private User $user;
@@ -118,7 +118,7 @@ class Transaction
     /**
      * @return Category
      */
-    public function getCategory(): Category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
@@ -127,9 +127,9 @@ class Transaction
      * @param Category $category
      * @return Transaction
      */
-    public function setCategory(Category $category): Transaction
+    public function setCategory(?Category $category): Transaction
     {
-        $category->addTransactions($this);
+        $category?->addTransactions($this);
         $this->category = $category;
         return $this;
     }

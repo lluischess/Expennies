@@ -6,6 +6,7 @@ use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\CategoriesController;
 use App\Controllers\TransactionController;
+use App\Controllers\TransactionImporterController;
 use App\Controllers\ReceiptController;
 use App\Middleware\GuestMiddleware;
 // Revisar si existe el usuario
@@ -39,6 +40,7 @@ return function (App $app) {
         $transactions->get('', [TransactionController::class, 'index']);
         $transactions->get('/load', [TransactionController::class, 'load']);
         $transactions->post('', [TransactionController::class, 'store']);
+        $transactions->post('/import', [TransactionImporterController::class, 'import']);
         $transactions->delete('/{id:[0-9]+}', [TransactionController::class, 'delete']);
         $transactions->get('/{id:[0-9]+}', [TransactionController::class, 'get']);
         $transactions->post('/{id:[0-9]+}', [TransactionController::class, 'update']);

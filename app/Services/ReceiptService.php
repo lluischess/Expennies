@@ -13,18 +13,24 @@ class ReceiptService
     {
     }
 
-public function create($transaction, string $filename, string $storageFilename): Receipt
+public function create($transaction, string $filename, string $storageFilename, string $mediaType): Receipt
 {
-    $receipt = new Receipt();
+        $receipt = new Receipt();
 
-    $receipt->setTransaction($transaction);
-    $receipt->setFilename($filename);
-    $receipt->setStorageFilename($storageFilename);
-    $receipt->setCreatedAt(new \DateTime());
+        $receipt->setTransaction($transaction);
+        $receipt->setFilename($filename);
+        $receipt->setStorageFilename($storageFilename);
+        $receipt->setMediaType($mediaType);
+        $receipt->setCreatedAt(new \DateTime());
 
-    $this->entityManager->persist($receipt);
-    $this->entityManager->flush();
+        $this->entityManager->persist($receipt);
+        $this->entityManager->flush();
 
-    return $receipt;
-}
+        return $receipt;
+    }
+
+    public function getById(int $id)
+    {
+        return $this->entityManager->find(Receipt::class, $id);
+    }
 }

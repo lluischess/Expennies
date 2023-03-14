@@ -15,6 +15,7 @@ use App\Contracts\RequestValidatorFactoryInterface;
 use App\Services\UserProviderService;
 use App\RequestValidators\RequestValidatorFactory;
 use Doctrine\ORM\EntityManager;
+use Doctrine\DBAL\DriverManager;
 use League\Flysystem\Filesystem;
 use Doctrine\ORM\ORMSetup;
 use Psr\Container\ContainerInterface;
@@ -31,6 +32,9 @@ use Symfony\WebpackEncoreBundle\Asset\EntrypointLookup;
 use Symfony\WebpackEncoreBundle\Asset\TagRenderer;
 use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
 use Twig\Extra\Intl\IntlExtension;
+use Clockwork\Clockwork;
+use Clockwork\DataSource\DoctrineDataSource;
+use Clockwork\Storage\FileStorage;
 
 /*
  * La función create es utilizada para crear una instancia de una clase y resolver sus dependencias mediante el contenedor de inyección de dependencias de PHP-DI.
@@ -71,13 +75,17 @@ return [
     },
 
     Config::class                 => create(Config::class)->constructor(require CONFIG_PATH . '/app.php'),
-    EntityManager::class          => fn(Config $config) => EntityManager::create(
-        $config->get('doctrine.connection'),
-        ORMSetup::createAttributeMetadataConfiguration(
+    EntityManager::class                    => function (Config $config) {
+        $ormConfig = ORMSetup::createAttributeMetadataConfiguration(
             $config->get('doctrine.entity_dir'),
             $config->get('doctrine.dev_mode')
-        )
-    ),
+        );
+
+        return new EntityManager(
+            DriverManager::getConnection($config->get('doctrine.connection'), $ormConfig),
+            $ormConfig
+        );
+    },
     Twig::class                   => function (Config $config, ContainerInterface $container) {
         $twig = Twig::create(VIEW_PATH, [
             'cache'       => STORAGE_PATH . '/cache/templates',
@@ -114,5 +122,13 @@ return [
         };
 
         return new \League\Flysystem\Filesystem($adapter);
+    },
+    Clockwork::class => function(EntityManager $entityManager) {
+        $clockwork = new Clockwork();
+
+        $clockwork->storage(new FileStorage(STORAGE_PATH . '/clockwork'));
+        $clockwork->addDataSource(new DoctrineDataSource($entityManager));
+
+        return $clockwork;
     }
 ];

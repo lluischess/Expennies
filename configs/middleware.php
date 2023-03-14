@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use App\Config;
+use App\Enum\AppEnvironment;
 use App\Middleware\CsrfFieldsMiddleware;
 use App\Middleware\ValidationExceptionMiddleware;
 use App\Middleware\StartSessionsMiddleware;
@@ -13,6 +14,8 @@ use Slim\App;
 use Slim\Middleware\MethodOverrideMiddleware;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
+use Clockwork\Clockwork;
+use Clockwork\Support\Slim\ClockworkMiddleware;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -40,6 +43,11 @@ return function (App $app) {
 
     // Inicio de Session
     $app->add(\App\Middleware\StartSessionsMiddleware::class);
+
+    // este middleware es para ver los tiempos de las consultas con la app de chrome Clockwork
+    if (AppEnvironment::isDevelopment($config->get('app_environment'))) {
+        $app->add(new ClockworkMiddleware($app, $container->get(Clockwork::class)));
+    }
 
     // Middleware para parsear archivos json y xml
     $app->addBodyParsingMiddleware();

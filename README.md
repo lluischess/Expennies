@@ -97,7 +97,23 @@ Contiene toda la estructura de herramientas que necesitamos y las versiónes req
 Es el archivo de variables de entorno, cuando se empiece un nuevo proecto hay que copiarlo y dejar las variables de tu entorno añadidas dejando como archivo final un .env
 
 
+
 # Install Project:
+
+## Pre Instalación:
+
+1) Configurar el Servidor:
+   1) Apache:  
+      1) Revisar que los index.php se ejecuten lo primero de todo en el archivo /etc/httpd/conf/httpd.conf "DirectoryIndex index.php index.html"
+      2) Si tienes htaccess con lo siguiente: -RewriteEngine On
+                                              -RewriteCond %{REQUEST_FILENAME} !-f
+                                              -RewriteRule ^ index.php [QSA,L]
+      3) Por ultimo revisar que el vhost de tu dominio apunte a la carpeta "public"
+   2) Nginx:
+      1) Lo mismo revisar que se ejecuten los index.php en la ruta: /etc/nginx/nginx.conf (index index.php index.html;)
+      2) Mirar de pulir la config de Nginx con buestros requisitos en la ruta: docker/nginx/nginx.conf
+    
+## Instalación
 
 1) Clone Repo
 2) Opcional: Usando Docker estaremos usando e instalando node npm para instalar bootstrap
@@ -114,6 +130,16 @@ Es el archivo de variables de entorno, cuando se empiece un nuevo proecto hay qu
 13) Una vez creadas hacemos la migración a la BBDD "php expennies diff"
 14) Luego migramos la migración "php expennies migrations:migrate"
 
+
+
+## Orden de Ejecución:
+
+1) public/index.php
+2) bootstrap.php
+3) vendor/autoload.php
+4) configs/path_constants.php
+5) container/container.php
+6) container/container_bindings.php
 
 ## Cosas a corregir y mejorar:
 

@@ -32,8 +32,13 @@ use Symfony\WebpackEncoreBundle\Asset\TagRenderer;
 use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
 use Twig\Extra\Intl\IntlExtension;
 
+/*
+ * La función create es utilizada para crear una instancia de una clase y resolver sus dependencias mediante el contenedor de inyección de dependencias de PHP-DI.
+ * Es una forma más concisa y sencilla de crear instancias de objetos que tienen dependencias y que necesitan ser inyectados en el constructor.
+ */
 use function DI\create;
 
+// Este container tiene todas las dependencias que usamos en el proyecto
 return [
     App::class => function(ContainerInterface $container) {
         AppFactory::setContainer($container);

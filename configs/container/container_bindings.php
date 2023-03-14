@@ -39,6 +39,23 @@ use Twig\Extra\Intl\IntlExtension;
 use function DI\create;
 
 // Este container tiene todas las dependencias que usamos en el proyecto
+/* Array por indices:
+ * 1) Entonces a la class App que es la classe principal de slim le asignamos el valor de una funcion que se ejecutara cuando se resuelva la dependencia.
+ * Usamos el ContainerInterface del Psr que es una Interfaz para preparar lo que añadiremos en el contenedor y lo que instanciaremos.
+ * Preparamos la instancia de AppFactory que proporciona metodos del framework slim y le seteamos el container.
+ * Despues le assiganaremos a una variable el codigo de los middleware.php y a la otra las rutas web del proyecto (En este caso, el archivo middleware.php debe definir una función que tome una instancia de la aplicación Slim y agregue los middleware necesarios a esa instancia.)
+ * Una vez creada la instancia con create() de la aplicación, se pueden agregar rutas, middleware, controladores y otras configuraciones necesarias para la aplicación.
+ * Entonces $router($app); ejecuta la funcion del archivo de las rutas con la app que hemos creado y lo mismo con los middleware y retornamos la app con todo ejecutado.
+ *
+ * 2) La segunda clave es la Config::class que será la clase de las configuraciónes
+ * Primero crea una instancia de la clase Config.
+ *  La función create es un método de la clase Slim\CallableResolver, que se utiliza para crear objetos de clases a través de la inyección de dependencias
+ * Y usamos el metodo constructor de slim para añadir el parametro al constructor de la class Config.
+ * El parametro es un archivo llamado app.php que se ejecuta al instanciar la class config.
+ *
+ *
+ *
+ */
 return [
     App::class => function(ContainerInterface $container) {
         AppFactory::setContainer($container);

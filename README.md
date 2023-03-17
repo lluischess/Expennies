@@ -140,6 +140,7 @@ Es el archivo de variables de entorno, cuando se empiece un nuevo proecto hay qu
 4) configs/path_constants.php
 5) container/container.php
 6) container/container_bindings.php
+7) Se ejecuta el resto del proyecto
 
 ## Cosas a corregir y mejorar:
 

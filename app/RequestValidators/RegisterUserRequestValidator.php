@@ -20,10 +20,12 @@ class RegisterUserRequestValidator implements RequestValidatorInterface
     {
         $v = new Validator($data);
 
+        // Validamos los datos del registro del usuario
         $v->rule('required', ['name', 'email', 'password', 'confirmPassword']);
         $v->rule('email', 'email');
         $v->rule('equals', 'confirmPassword', 'password')->label('Confirm Password');
         $v->rule(
+            // si 0 es es false significa que no hay ningun email en la BBDD y puede registrarse en casa de ser true 1 pasaremos un error con un msg
             fn($field, $value, $params, $fields) => ! $this->entityManager->getRepository(User::class)->count(
                 ['email' => $value]
             ),

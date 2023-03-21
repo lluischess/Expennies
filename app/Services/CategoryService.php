@@ -18,10 +18,13 @@ class CategoryService
 
     public function create(string $name, User $user) : Category
     {
+        // Crear nueva instancia de category
         $category = new Category();
 
+        // Asignarle un usuario
         $category->setUser($user);
 
+        // Llamar a la función update que se encarge de actualizar el usuario en la BBDD
         return $this->update($category,$name);
     }
 
@@ -46,9 +49,12 @@ class CategoryService
 
     public function delete(int $id) : void
     {
+        // Hacemos un find por class Categoty y por id
         $category = $this->entityManager->find(Category::class, $id);
 
+        // Creamos la consulta delete de esa categoria
         $this->entityManager->remove($category);
+        // La ejecutamos
         $this->entityManager->flush();
     }
 
@@ -60,11 +66,15 @@ class CategoryService
 
     public function update(Category $category, string $name) : Category
     {
+        // Asignamos el nuevo nombre al Name
         $category->setName($name);
 
+        // Preparamos la consulta
         $this->entityManager->persist($category);
+        // La ejecutamos
         $this->entityManager->flush();
 
+        // devolvemos el objeto
         return $category;
     }
 

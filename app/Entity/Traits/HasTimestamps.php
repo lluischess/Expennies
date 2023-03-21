@@ -5,7 +5,8 @@ declare(strict_types = 1);
 namespace App\Entity\Traits;
 
 use App\Entity\Category;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+//use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;

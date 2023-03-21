@@ -18,6 +18,7 @@ class ValidationException extends \RuntimeException
         int $code = 422, // Codigo de error 422(Entidad no procesable)
         ?Throwable $previous = null) // The previous throwable used for the exception chaining
     {
+        // Llama al constructor de la clase padre (\RuntimeException) para establecer el mensaje, el código y la excepción previa
         parent::__construct($message, $code, $previous);
     }
 }

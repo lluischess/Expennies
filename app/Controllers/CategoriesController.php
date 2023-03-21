@@ -43,11 +43,13 @@ class CategoriesController
         // Create new category record in the database
         $this->categoryService->create($data['name'], $request->getAttribute('user'));
 
+        // Devolvemos la respuesta redirecciónando a categories
         return $response->withHeader('Location', '/categories')->withStatus(302);
     }
 
     public function delete(Request $request, Response $response, array $args ) : Response
     {
+        // Llamamos al this class categoryService que lo tenemos en el constructor para que utilice su funcion delete asignandole el id de la categoria
         $this->categoryService->delete((int) $args['id']);
 
         //return $response->withHeader('Location', '/categories')->withStatus(302);
@@ -56,14 +58,18 @@ class CategoriesController
 
     public function get(Request $request, Response $response, array $args ) : Response
     {
+        // Obtener la categoría por su ID utilizando el servicio 'categoryService'
         $category = $this->categoryService->getById((int) $args['id']);
 
+        // Si la categoría no se encuentra, devolver una respuesta con estado 404
         if (!$category){
             return $response->withStatus(404);
         }
 
+        // Crear un array asociativo con los datos de la categoría
         $data = ['id' => $category->getId(), 'name' => $category->getName()];
 
+        // Devolver una respuesta JSON con los datos de la categoría
         return $this->responseFormatter->asJson($response, $data);
     }
 
@@ -74,12 +80,15 @@ class CategoriesController
             $args + $request->getParsedBody()
         );
 
+        // Obtener la categoría por su ID utilizando el servicio 'categoryService'
         $category = $this->categoryService->getById((int) $data['id']);
 
+        // Si la categoría no se encuentra, devolver una respuesta con estado 404
         if (!$category){
             return $response->withStatus(404);
         }
 
+        // Enviamos los datos al update de categoriSercice para que actualice la categoria
         $this->categoryService->update($category,$data['name']);
 
         return $response;
@@ -88,10 +97,13 @@ class CategoriesController
     public function load(Request $request, Response $response): Response
     {
 
+        // Obtener los parámetros de consulta para la tabla de datos a partir de la solicitud
         $params = $this->requestService->getDataTableQueryParameters($request);
 
+        // Obtener las categorías paginadas usando los parámetros de consulta
         $categories = $this->categoryService->getPaginatedCategories($params);
 
+        // Definir una función transformadora para convertir cada objeto de la categoría en un array asociativo
         $transformer = function (Category $category) {
             return [
                 'id'        => $category->getId(),
@@ -101,6 +113,7 @@ class CategoriesController
             ];
         };
 
+        // Devolver una respuesta JSON con los datos de las categorías transformados y la información de paginación
         return $this->responseFormatter->asJson(
             $response,
             [

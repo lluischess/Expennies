@@ -21,7 +21,7 @@ class GuestMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if($this->session->get('user')){
-            // Redirigimos al Login
+            // Redirigimos al inicio y eso revisara si tiene que logearse o no
             return $this->responseFactory->createResponse(302)->withHeader('Location','/');
         }
 

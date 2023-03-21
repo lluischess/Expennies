@@ -20,6 +20,7 @@ class HomeController
 
         //include VIEW_PATH . '/xss.php';
 
+        // Devuelve la respuesta HTTP generada por Twig al cliente
         return $this->twig->render($response, 'dashboard.twig');
     }
 }

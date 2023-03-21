@@ -33,10 +33,13 @@ class AuthController
 
     public function register(Request $request, Response $response): Response
     {
+        // Crea y valida el objeto de validación de datos de la solicitud de registro de usuario
         $data = $this->requestValidatorFactory->make(RegisterUserRequestValidator::class)->validate($request->getParsedBody());
 
+        // Registra al usuario utilizando los datos validados
         $this->auth->register($data);
 
+        // Redirige al usuario a la página de inicio de sesión y devuelve un código de estado HTTP 302 (Redirección temporal)
         return $response->withHeader('Location', '/login')->withStatus(302);
     }
 

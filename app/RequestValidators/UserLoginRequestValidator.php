@@ -12,6 +12,7 @@ class UserLoginRequestValidator implements RequestValidatorInterface
 {
     public function validate(array $data): array
     {
+        // Validamos los Datos que ha insertado el usuario en el login
         $v = new Validator($data);
         $v->rule('required', ['email', 'password']);
         $v->rule('email', 'email');

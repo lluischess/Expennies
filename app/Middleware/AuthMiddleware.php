@@ -22,8 +22,7 @@ class AuthMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-
-
+        
         // Si el user existe obteniendo el return de auth->user() entondes gestionamos el acceso
         if($user = $this->auth->user()){
             // le pasamos al entorno global de twig el id del usuario y su nombre

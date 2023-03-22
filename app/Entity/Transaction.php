@@ -129,7 +129,7 @@ class Transaction
      */
     public function setCategory(?Category $category): Transaction
     {
-        $category?->addTransactions($this);
+        //$category?->addTransactions($this);
         $this->category = $category;
         return $this;
     }
@@ -148,7 +148,7 @@ class Transaction
      */
     public function setUser(User $user): Transaction
     {
-        $user->addTransactions($this);
+        //$user->addTransactions($this);
         $this->user = $user;
         return $this;
     }
